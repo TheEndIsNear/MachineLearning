@@ -11,6 +11,10 @@ Mix.install([
 
 ## Model Representation Setup
 
+## Supervised Learning and Linear Regression
+
+Setup the initial alias and the training data.
+
 ```elixir
 alias VegaLite, as: Vl
 
@@ -21,14 +25,18 @@ IO.inspect("x_train = #{inspect(x_train)}")
 IO.inspect("y_train = #{inspect(y_train)}")
 ```
 
+Display the shape of the training feature data
+
 ```elixir
 IO.inspect("x_train shape: #{inspect(Nx.shape(Nx.tensor(x_train)))}")
 {m} = Nx.shape(Nx.tensor(x_train))
 IO.inspect("Number of training examples is: #{m}")
 ```
 
+Display the training data as a scatter plot
+
 ```elixir
-Vl.new(width: 400, height: 400)
+Vl.new(width: 300, height: 300)
 |> Vl.data_from_values(x_train: x_train, y_train: y_train)
 |> Vl.mark(:point)
 |> Vl.encode_field(:x, "x_train", tpye: :quantitative, title: "Size (100 sqft)")
@@ -59,7 +67,7 @@ end
 ```elixir
 test_output = Model.compute_model_output(x_train, w, b)
 
-Vl.new(width: 400, height: 400)
+Vl.new(width: 300, height: 300)
 |> Vl.layers([
   Vl.new()
   |> Vl.data_from_values(x_train: x_train, test_output: test_output)
@@ -81,5 +89,5 @@ w = 200
 b = 100
 x_i = 1.2
 cost = w * x_i + b
-IO.inspect("#{cost} thousand dollars")
+IO.inspect("#{trunc(cost)} thousand dollars")
 ```
