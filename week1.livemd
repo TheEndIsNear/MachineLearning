@@ -61,6 +61,17 @@ defmodule Model do
       w * x + b
     end)
   end
+
+  def compute_cost(xs, ys, w, b) do
+    m = length(xs)
+
+    1 / (2 * m) *
+      Enum.reduce(xs, {0, 0}, fn x, {index, cost} ->
+        f_wb = w * x + b
+        cost = cost + :math.pow(f_wb - Enum.at(ys, index), 2)
+        {index + 1, cost}
+      end)
+  end
 end
 ```
 
@@ -91,3 +102,14 @@ x_i = 1.2
 cost = w * x_i + b
 IO.inspect("#{trunc(cost)} thousand dollars")
 ```
+
+## Cost Function
+
+Craphing a cost function to get a good grasp on how the cost function works.
+
+```elixir
+x_train = [1.0, 1.7, 2.0, 2.5, 3.0, 3.2]
+y_train = [250, 300, 480, 430, 630, 730]
+```
+
+
