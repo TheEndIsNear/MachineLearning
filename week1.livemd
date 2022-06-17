@@ -34,3 +34,52 @@ Vl.new(width: 400, height: 400)
 |> Vl.encode_field(:x, "x_train", tpye: :quantitative, title: "Size (100 sqft)")
 |> Vl.encode_field(:y, "y_train", type: :quantitative, title: "Price (in 1000s of dollars)")
 ```
+
+## Setting up the Model Params W and b
+
+Change the values of b and w to match the line to the plot
+
+```elixir
+w = 100
+b = 100
+IO.inspect(w, label: :w)
+IO.inspect(b, label: :b)
+```
+
+```elixir
+defmodule Model do
+  def compute_model_output(xs, w, b) do
+    Enum.map(xs, fn x ->
+      w * x + b
+    end)
+  end
+end
+```
+
+```elixir
+test_output = Model.compute_model_output(x_train, w, b)
+
+Vl.new(width: 400, height: 400)
+|> Vl.layers([
+  Vl.new()
+  |> Vl.data_from_values(x_train: x_train, test_output: test_output)
+  |> Vl.mark(:line, color: "blue")
+  |> Vl.encode_field(:x, "x_train", tpye: :quantitative, title: "Size (100 sqft)")
+  |> Vl.encode_field(:y, "test_output", type: :quantitative, title: "Price (in 1000s of dollars)"),
+  Vl.new()
+  |> Vl.data_from_values(x_train: x_train, y_train: y_train)
+  |> Vl.mark(:point, color: "red")
+  |> Vl.encode_field(:x, "x_train", tpye: :quantitative, title: "Size (100 sqft)")
+  |> Vl.encode_field(:y, "y_train", type: :quantitative, title: "Price (in 1000s of dollars)")
+])
+```
+
+## Prediction using the generated model
+
+```elixir
+w = 200
+b = 100
+x_i = 1.2
+cost = w * x_i + b
+IO.inspect("#{cost} thousand dollars")
+```
