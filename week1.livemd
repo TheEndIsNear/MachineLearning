@@ -1,0 +1,36 @@
+# Intro To Machine Learning
+
+```elixir
+Mix.install([
+  {:nx, "~> 0.2"},
+  {:kino, "~> 0.6.1"},
+  {:kino_vega_lite, "~> 0.1.1"},
+  {:vega_lite, "~> 0.1.5"}
+])
+```
+
+## Model Representation Setup
+
+```elixir
+alias VegaLite, as: Vl
+
+x_train = [1.0, 2.0]
+y_train = [300, 500.0]
+
+IO.inspect("x_train = #{inspect(x_train)}")
+IO.inspect("y_train = #{inspect(y_train)}")
+```
+
+```elixir
+IO.inspect("x_train shape: #{inspect(Nx.shape(Nx.tensor(x_train)))}")
+{m} = Nx.shape(Nx.tensor(x_train))
+IO.inspect("Number of training examples is: #{m}")
+```
+
+```elixir
+Vl.new(width: 400, height: 400)
+|> Vl.data_from_values(x_train: x_train, y_train: y_train)
+|> Vl.mark(:point)
+|> Vl.encode_field(:x, "x_train", tpye: :quantitative, title: "Size (100 sqft)")
+|> Vl.encode_field(:y, "y_train", type: :quantitative, title: "Price (in 1000s of dollars)")
+```
